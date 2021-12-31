@@ -1,20 +1,35 @@
 const gridContainer = document.getElementById('grid');
 const gridSizeText = document.getElementById('grid-size');
+const buttonsContainer = document.getElementById('buttons-container');
 const clearButton = document.getElementById('clear-button');
 const eraseButton = document.getElementById('erase-button');
 const etchButton = document.getElementById('etch-button');
+const randomButton = document.getElementById('random-button');
+const buttons = buttonsContainer.children;
 
 const DEFAULT_GRID_SIZE = 16;
 const DEFAULT_COLOR = 'white';
 let gridSize = DEFAULT_GRID_SIZE;
 let etch = false;
 let erase = false;
-let randomColor = true;
+let randomColor = false;
 
 function draw(div, color) {
   let divStyle = div.style;
   divStyle.setProperty('background-color', color);
   divStyle.setProperty('color', color);
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+function getRandomRGB() {
+  return `rgb(
+  ${getRandomInt(255)},
+  ${getRandomInt(255)},
+  ${getRandomInt(255)}
+  )`;
 }
 
 function evaluate(e) {
@@ -23,7 +38,7 @@ function evaluate(e) {
   } else if (erase) {
     draw(this, DEFAULT_COLOR);
   } else if (randomColor) {
-    draw(this, 'rgb(23, 123, 255)');
+    draw(this, getRandomRGB());
   }
 }
 
@@ -65,7 +80,7 @@ function updateGridSize() {
 
 function clearGrid() {
   do {
-    gridSize = Number(prompt('Grid Size: ', '1 - 100'));
+    gridSize = Number(prompt('Grid Size [1-100]: ', 16));
   } while (isNaN(gridSize || gridSize === 0));
 
   if (gridSize > 0 && gridSize <= 100) {
@@ -88,6 +103,11 @@ etchButton.addEventListener('click', () => {
     erase = !erase;
     eraseButton.classList.toggle('red-bg');
   }
+  if (randomColor) {
+    randomColor = !randomColor;
+    randomButton.style.setProperty('background-color', DEFAULT_COLOR);
+    randomButton.style.setProperty('color', 'black');
+  }
 });
 eraseButton.addEventListener('click', () => {
   erase = !erase;
@@ -96,5 +116,31 @@ eraseButton.addEventListener('click', () => {
   if (etch) {
     etch = !etch;
     etchButton.classList.toggle('green-bg');
+  }
+  if (randomColor) {
+    randomColor = !randomColor;
+    randomButton.style.setProperty('background-color', DEFAULT_COLOR);
+    randomButton.style.setProperty('color', 'black');
+  }
+});
+randomButton.addEventListener('click', () => {
+  randomColor = !randomColor;
+
+  if (randomColor) {
+    randomButton.style.setProperty('background-color', getRandomRGB());
+    randomButton.style.setProperty('color', getRandomRGB());
+  } else {
+    randomButton.style.setProperty('background-color', DEFAULT_COLOR);
+    randomButton.style.setProperty('color', 'black');
+  }
+
+  if (etch) {
+    etch = !etch;
+    etchButton.classList.toggle('green-bg');
+  }
+
+  if (erase) {
+    erase = !erase;
+    eraseButton.classList.toggle('red-bg');
   }
 });
