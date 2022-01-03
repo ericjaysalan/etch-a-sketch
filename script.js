@@ -1,18 +1,21 @@
 const gridContainer = document.getElementById('grid');
 const gridSizeText = document.getElementById('grid-size');
 const buttonsContainer = document.getElementById('buttons-container');
-const clearButton = document.getElementById('clear-button');
-const eraseButton = document.getElementById('erase-button');
-const etchButton = document.getElementById('etch-button');
-const randomButton = document.getElementById('random-button');
-const buttons = buttonsContainer.children;
+const clearButton = document.getElementById('clear');
+const eraseButton = document.getElementById('erase');
+const etchButton = document.getElementById('etch');
+const randomButton = document.getElementById('random');
+const buttons = Array.from(buttonsContainer.children);
 
 const DEFAULT_GRID_SIZE = 16;
-const DEFAULT_COLOR = 'white';
+const DEFAULT_BG_COLOR = 'white';
+const DEFAULT_COLOR = 'black';
+const buttonsCondition = {
+  etch: false,
+  erase: false,
+  random: false,
+};
 let gridSize = DEFAULT_GRID_SIZE;
-let etch = false;
-let erase = false;
-let randomColor = false;
 
 function draw(div, color) {
   let divStyle = div.style;
@@ -33,11 +36,11 @@ function getRandomRGB() {
 }
 
 function evaluate(e) {
-  if (etch) {
+  if (buttonsCondition.etch) {
     draw(this, 'black');
-  } else if (erase) {
-    draw(this, DEFAULT_COLOR);
-  } else if (randomColor) {
+  } else if (buttonsCondition.erase) {
+    draw(this, DEFAULT_BG_COLOR);
+  } else if (buttonsCondition.random) {
     draw(this, getRandomRGB());
   }
 }
@@ -79,6 +82,8 @@ function updateGridSize() {
 }
 
 function clearGrid() {
+  defaultButtons();
+
   do {
     gridSize = Number(prompt('Grid Size [1-100]: ', 16));
   } while (isNaN(gridSize || gridSize === 0));
@@ -92,55 +97,40 @@ function clearGrid() {
   }
 }
 
+function defaultButtons() {
+  buttonsCondition.etch = false;
+  buttonsCondition.erase = false;
+  buttonsCondition.random = false;
+
+  buttons.forEach((button) => {
+    button.className = 'default';
+  });
+}
+
+function toggleButtons(e) {
+  const target = e.target;
+  const targetId = target.id;
+  let background = '';
+
+  defaultButtons();
+
+  if (targetId === 'erase') {
+    buttonsCondition.erase = !buttonsCondition.erase;
+    background = 'red-bg';
+  } else if (targetId === 'etch') {
+    buttonsCondition.etch = true;
+    background = 'green-bg';
+  } else if (targetId === 'random') {
+    buttonsCondition.random = true;
+    background = 'random';
+  }
+
+  target.classList.replace('default', background);
+}
 createGrid(gridSize);
 
+// Event Listeners
 clearButton.addEventListener('click', clearGrid);
-etchButton.addEventListener('click', () => {
-  etch = !etch;
-  etchButton.classList.toggle('green-bg');
-
-  if (erase) {
-    erase = !erase;
-    eraseButton.classList.toggle('red-bg');
-  }
-  if (randomColor) {
-    randomColor = !randomColor;
-    randomButton.style.setProperty('background-color', DEFAULT_COLOR);
-    randomButton.style.setProperty('color', 'black');
-  }
-});
-eraseButton.addEventListener('click', () => {
-  erase = !erase;
-  eraseButton.classList.toggle('red-bg');
-
-  if (etch) {
-    etch = !etch;
-    etchButton.classList.toggle('green-bg');
-  }
-  if (randomColor) {
-    randomColor = !randomColor;
-    randomButton.style.setProperty('background-color', DEFAULT_COLOR);
-    randomButton.style.setProperty('color', 'black');
-  }
-});
-randomButton.addEventListener('click', () => {
-  randomColor = !randomColor;
-
-  if (randomColor) {
-    randomButton.style.setProperty('background-color', getRandomRGB());
-    randomButton.style.setProperty('color', getRandomRGB());
-  } else {
-    randomButton.style.setProperty('background-color', DEFAULT_COLOR);
-    randomButton.style.setProperty('color', 'black');
-  }
-
-  if (etch) {
-    etch = !etch;
-    etchButton.classList.toggle('green-bg');
-  }
-
-  if (erase) {
-    erase = !erase;
-    eraseButton.classList.toggle('red-bg');
-  }
-});
+eraseButton.addEventListener('click', toggleButtons);
+etchButton.addEventListener('click', toggleButtons);
+randomButton.addEventListener('click', toggleButtons);
