@@ -1,19 +1,21 @@
 const gridContainer = document.getElementById('grid');
 const gridSizeText = document.getElementById('grid-size');
 const buttonsContainer = document.getElementById('buttons-container');
+const buttons = Array.from(buttonsContainer.children);
 const clearButton = document.getElementById('clear');
 const eraseButton = document.getElementById('erase');
 const etchButton = document.getElementById('etch');
 const randomButton = document.getElementById('random');
-const buttons = Array.from(buttonsContainer.children);
+const shadeButton = document.getElementById('shade');
 
 const DEFAULT_GRID_SIZE = 16;
-const DEFAULT_BG_COLOR = 'white';
+const DEFAULT_BG_COLOR = 'rgb(255, 255, 255)';
 const DEFAULT_COLOR = 'black';
 const buttonsCondition = {
   etch: false,
   erase: false,
   random: false,
+  shade: false,
 };
 let gridSize = DEFAULT_GRID_SIZE;
 
@@ -35,6 +37,46 @@ function getRandomRGB() {
   )`;
 }
 
+function shade(currentShade) {
+  let newShade = '';
+  switch (currentShade) {
+    case 'rgb(255, 255, 255)':
+      newShade = 'rgb(230, 230, 230)';
+      break;
+    case 'rgb(230, 230, 230)':
+      newShade = 'rgb(205, 205, 205)';
+      break;
+    case 'rgb(205, 205, 205)':
+      newShade = 'rgb(180, 180, 180)';
+      break;
+    case 'rgb(180, 180, 180)':
+      newShade = 'rgb(155, 155, 155)';
+      break;
+    case 'rgb(155, 155, 155)':
+      newShade = 'rgb(130, 130, 130)';
+      break;
+    case 'rgb(130, 130, 130)':
+      newShade = 'rgb(105, 105, 105)';
+      break;
+    case 'rgb(105, 105, 105)':
+      newShade = 'rgb(80, 80, 80)';
+      break;
+    case 'rgb(80, 80, 80)':
+      newShade = 'rgb(55, 55, 55)';
+      break;
+    case 'rgb(55, 55, 55)':
+      newShade = 'rgb(30, 30, 30)';
+      break;
+    case 'rgb(30, 30, 30)':
+      newShade = 'rgb(0, 0, 0)';
+      break;
+    default:
+      newShade = currentShade;
+  }
+
+  return newShade;
+}
+
 function evaluate(e) {
   if (buttonsCondition.etch) {
     draw(this, 'black');
@@ -42,6 +84,12 @@ function evaluate(e) {
     draw(this, DEFAULT_BG_COLOR);
   } else if (buttonsCondition.random) {
     draw(this, getRandomRGB());
+  } else if (buttonsCondition.shade) {
+    // TODO it takes 10 strokes to make a div go black
+    const currentShade = this.style.color;
+    const newShade = shade(currentShade);
+    this.style.setProperty('background-color', newShade);
+    this.style.setProperty('color', newShade);
   }
 }
 
@@ -60,8 +108,8 @@ function createGrid(gridSize) {
       const newDiv = document.createElement('div');
       const newDivStyle = newDiv.style;
       newDiv.innerText = '0';
-      newDivStyle.setProperty('background-color', 'white');
-      newDivStyle.setProperty('color', 'white');
+      newDivStyle.setProperty('background-color', DEFAULT_BG_COLOR);
+      newDivStyle.setProperty('color', 'rgb(255, 255, 255)');
 
       newDiv.addEventListener('mouseenter', evaluate);
 
@@ -115,7 +163,7 @@ function toggleButtons(e) {
   defaultButtons();
 
   if (targetId === 'erase') {
-    buttonsCondition.erase = !buttonsCondition.erase;
+    buttonsCondition.erase = true;
     background = 'red-bg';
   } else if (targetId === 'etch') {
     buttonsCondition.etch = true;
@@ -123,6 +171,9 @@ function toggleButtons(e) {
   } else if (targetId === 'random') {
     buttonsCondition.random = true;
     background = 'random';
+  } else if (targetId === 'shade') {
+    buttonsCondition.shade = true;
+    background = 'shade';
   }
 
   target.classList.replace('default', background);
@@ -134,3 +185,4 @@ clearButton.addEventListener('click', clearGrid);
 eraseButton.addEventListener('click', toggleButtons);
 etchButton.addEventListener('click', toggleButtons);
 randomButton.addEventListener('click', toggleButtons);
+shadeButton.addEventListener('click', toggleButtons);
