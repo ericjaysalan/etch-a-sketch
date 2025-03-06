@@ -4,6 +4,9 @@
   box-sizing: border-box;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+li {
+  list-style: none;
+}
 
 :root {
   --white: #f4f4f4;
@@ -22,16 +25,31 @@ body {
 
   background-color: var(--black);
   color: var(--white);
+
+  font-size: 16px;
 }
 header {
   align-self: stretch;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   background-color: var(--primary);
-  padding: 0.5rem;
+  padding: 0.5rem 2rem;
   border-bottom: 0.01px solid var(--secondary);
 }
 
-header h1 {
-  padding-left: 2rem;
+header nav button {
+  padding: 1rem;
+  font-size: 24px;
+  background-color: var(--primary);
+  color: var(--white);
+  border: none;
+}
+
+header nav button:hover {
+  cursor: pointer;
+  background-color: var(--secondary);
 }
 
 #container {
