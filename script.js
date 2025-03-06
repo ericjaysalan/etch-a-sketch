@@ -1,5 +1,40 @@
 const canvas = document.querySelector("#container");
+const changeGridButton = document.querySelector("#grid-size");
 const COLOR_WHEN_HOVERED = "red";
+
+function clearCanvas() {
+  const canvasLength = canvas.children.length;
+
+  for (let i = 0; i < canvasLength; i++) {
+    canvas.firstChild.remove();
+  }
+}
+
+function isValidGridSize(gridSizeFromPrompt) {
+  return !isNaN(gridSizeFromPrompt);
+}
+
+function canvasSizePrompt() {
+  let isNotValid = true;
+  let newGridSize = 0;
+
+  while (isNotValid) {
+    newGridSize = Number(window.prompt("New Grid Size?"));
+
+    if (isValidGridSize(newGridSize)) {
+      isNotValid = false;
+    }
+  }
+
+  return newGridSize;
+}
+
+function changeGridSize(event) {
+  clearCanvas();
+
+  let newCanvasSize = canvasSizePrompt();
+  createCanvas(Number(newCanvasSize));
+}
 
 function colorTheSquare(div, color) {
   div.style.backgroundColor = color;
@@ -26,3 +61,4 @@ function createCanvas(canvasWidthAndHeight) {
 }
 
 createCanvas(16);
+changeGridButton.addEventListener("click", changeGridSize);
