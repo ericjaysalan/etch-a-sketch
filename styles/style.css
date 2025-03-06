@@ -5,12 +5,33 @@
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+:root {
+  --white: #f4f4f4;
+  --black: #000;
+  --primary: #493D9E;
+  --secondary: #B2A5FF;
+  --secondary-gradient: #DAD2FF;
+  --tertiary: #FFF2AF;
+}
+
 body {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  background-color: #000;
+  background-color: var(--black);
+  color: var(--white);
+}
+header {
+  align-self: stretch;
+  background-color: var(--primary);
+  padding: 0.5rem;
+  border-bottom: 0.01px solid var(--secondary);
+}
+
+header h1 {
+  padding-left: 2rem;
 }
 
 #container {
@@ -20,13 +41,13 @@ body {
   
   height: 90vh;
   width: 90vw;
-  background-color: black;
+  background-color: var(--black);
   margin: 1rem 2rem;
 }
 
 .square {
   width: 6.25%;
   height: 6.25%;
-  background-color: white;
-  color: white
+  background-color: var(--white);
+  color: var(--white)
 }
