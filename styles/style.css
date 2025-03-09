@@ -54,7 +54,7 @@ header nav button:hover {
 
 #container {
   display: flex;
-  flex-flow: row wrap;
+  flex-direction: column;
   align-content: flex-start;
   
   height: 90vh;
@@ -63,9 +63,14 @@ header nav button:hover {
   margin: 1rem 2rem;
 }
 
+#container > * {
+  display: flex;
+  flex: 1;
+  height: 6vh;
+}
+
 .square {
-  width: 6.25%;
-  height: 6.25%;
+  flex: 1;
   background-color: var(--white);
   color: var(--white)
 }

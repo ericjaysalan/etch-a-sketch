@@ -49,14 +49,18 @@ function etch(event) {
 
 function createCanvas(canvasWidthAndHeight) {
   for (let row = 0; row < canvasWidthAndHeight; row++) {
+    const rowDiv = document.createElement("div");
+
     for (let square = 0; square < canvasWidthAndHeight; square++) {
       let div = document.createElement("div");
       div.textContent = "?";
       div.classList.toggle("square");
       div.addEventListener("mouseover", etch);
 
-      canvas.appendChild(div);
+      rowDiv.appendChild(div);
     }
+
+    canvas.appendChild(rowDiv);
   }
 }
 
