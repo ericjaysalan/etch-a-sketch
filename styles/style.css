@@ -73,9 +73,5 @@ header nav button:hover {
 .square {
   flex: 1;
   background-color: var(--white);
-  color: var(--white);
-}
-
-.red {
-  background-color: rgba(255, 0, 0, 1);
+  color: rgba(255, 255, 255, 1);
 }

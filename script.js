@@ -41,15 +41,33 @@ function changeGridSize(event) {
   createCanvas(Number(newCanvasSize));
 }
 
+function random(min, max) {
+  const num = Math.floor(Math.random() * (max - min)) + min;
+  return num;
+}
+
+// prettier-ignore
+function randomColor(square) {
+  return `rgba(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)}, ${getOpacity(square)})`;
+}
+
+function getOpacity(square) {
+  return getComputedStyle(square).getPropertyValue("opacity");
+}
+
 function reduceOpacity(square) {
-  const previousOpacity = getComputedStyle(square).getPropertyValue("opacity");
+  let previousOpacity = getOpacity(square);
   square.style.opacity = previousOpacity - 0.1;
+}
+
+function addColorToSquare(square) {
+  square.style.background = randomColor(square);
 }
 
 function etch(event) {
   const square = event.target;
 
-  square.classList.add("red");
+  addColorToSquare(square);
   reduceOpacity(square);
 }
 
