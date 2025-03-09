@@ -17,7 +17,16 @@ function canvasSizePrompt() {
   while (isNotValid) {
     newGridSize = Number(window.prompt("New Grid Size? Cannot exceed 100."));
 
-    if (Number.isInteger(newGridSize) && newGridSize <= 100) {
+    if (Number.isInteger(newGridSize)) {
+      /*
+    This conditional check is for when the user clicks Cancel.
+    The prompt returns null which is converted to 0 by Number().
+    I set the grid size back to 16 when this is the case.
+    */
+      if (newGridSize === 0) {
+        newGridSize = 16;
+      }
+
       isNotValid = false;
     }
   }
