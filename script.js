@@ -53,7 +53,6 @@ function createCanvas(canvasWidthAndHeight) {
 
     for (let square = 0; square < canvasWidthAndHeight; square++) {
       let div = document.createElement("div");
-      div.textContent = "?";
       div.classList.toggle("square");
       div.addEventListener("mouseover", etch);
 
