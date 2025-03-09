@@ -67,10 +67,12 @@ header nav button:hover {
   display: flex;
   flex: 1;
   height: 6vh;
+  min-height: 0;
 }
 
 .square {
   flex: 1;
   background-color: var(--white);
-  color: var(--white)
+  color: var(--white);
+
 }
