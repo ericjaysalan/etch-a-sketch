@@ -10,18 +10,14 @@ function clearCanvas() {
   }
 }
 
-function isValidGridSize(gridSizeFromPrompt) {
-  return !isNaN(gridSizeFromPrompt);
-}
-
 function canvasSizePrompt() {
   let isNotValid = true;
   let newGridSize = 0;
 
   while (isNotValid) {
-    newGridSize = Number(window.prompt("New Grid Size?"));
+    newGridSize = Number(window.prompt("New Grid Size? Cannot exceed 100."));
 
-    if (isValidGridSize(newGridSize)) {
+    if (Number.isInteger(newGridSize) && newGridSize <= 100) {
       isNotValid = false;
     }
   }
