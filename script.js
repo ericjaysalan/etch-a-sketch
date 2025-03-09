@@ -41,10 +41,16 @@ function changeGridSize(event) {
   createCanvas(Number(newCanvasSize));
 }
 
+function reduceOpacity(square) {
+  const previousOpacity = getComputedStyle(square).getPropertyValue("opacity");
+  square.style.opacity = previousOpacity - 0.1;
+}
+
 function etch(event) {
   const square = event.target;
 
   square.classList.add("red");
+  reduceOpacity(square);
 }
 
 function createCanvas(canvasWidthAndHeight) {
