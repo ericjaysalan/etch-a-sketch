@@ -41,15 +41,10 @@ function changeGridSize(event) {
   createCanvas(Number(newCanvasSize));
 }
 
-function colorTheSquare(div, color) {
-  div.style.backgroundColor = color;
-  div.style.color = color;
-}
-
 function etch(event) {
   const square = event.target;
 
-  colorTheSquare(square, COLOR_WHEN_HOVERED);
+  square.classList.add("red");
 }
 
 function createCanvas(canvasWidthAndHeight) {
